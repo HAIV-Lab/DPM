@@ -4,4 +4,7 @@ The code repository for "Vision-Language Dual-Pattern Matching for Out-of-Distri
 
 ## News
 
-[07/2024]🎉  Our paper has been accepted by ECCV2024.
+
+## Abstract
+
+## Pipeline
