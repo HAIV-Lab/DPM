@@ -8,3 +8,5 @@ The code repository for "Vision-Language Dual-Pattern Matching for Out-of-Distri
 ## Abstract
 
 ## Pipeline
+
+Code coming soon by end of August 2024
