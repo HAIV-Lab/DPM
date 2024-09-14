@@ -2,6 +2,7 @@
 
 The code repository for "Vision-Language Dual-Pattern Matching for Out-of-Distribution Detection" in PyTorch. 
 
+Code coming soon by end of Sep 2024
 ## News
 [07/2023]🎉  Our paper has been accepted by ECCV2024.
 
@@ -23,4 +24,4 @@ The pipeline of DPM method. The dashed boxes and dashed arrows indicate the modu
 </div>
 
 <p></p>
-Code coming soon by end of Sep 2024
+
