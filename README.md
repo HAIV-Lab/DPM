@@ -14,7 +14,7 @@ Experiments demonstrate DPM's advantages, outperforming existing methods on comm
 
 ## Pipeline
 <div align="center">
-<img src="figs/pipeline" width="93%">
+<img src="figs/pipeline.png" width="93%">
 </div>
 <p></p>
 
