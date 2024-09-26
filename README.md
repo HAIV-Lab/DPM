@@ -33,7 +33,7 @@ The pipeline of DPM method. The dashed boxes and dashed arrows indicate the modu
 Our experiments are conducted with Python 3.9 and Pytorch 2.0.1.
 ### Datasets
 We use [ImageNet-1K](https://image-net.org/index.php) as the ID dataset.
-We use OOD datasets, including iNaturalist, SUN, Places, and Texture, followed by this [repository](https://github.com/deeplearning-wisc/large_scale_ood#out-of-distribution-dataset).
+We use OOD datasets, including [iNaturalist](https://arxiv.org/pdf/1707.06642), [SUN](https://vision.princeton.edu/projects/2010/SUN/), [Places](https://arxiv.org/abs/1610.02055), and (Texture)[https://arxiv.org/abs/1311.3618], followed by this [repository](https://github.com/deeplearning-wisc/large_scale_ood#out-of-distribution-dataset).
 Please put the datasets in the data folder with the following structure:
 ```
 DPM-F
@@ -45,11 +45,15 @@ DPM-F
     |-- OOD
         |-- iNaturalist
         |-- SUN
-        |-- Places
-        |-- Texture
+        |-- places365
+        |-- dtd
     ...
 ```
-
+## Run
+To run DPM-F, please run the below command:
+```
+python eval_ood_dpm --in_dataset ImageNet --root-dir ./data/ --score DPM
+```
 ## Acknowledgment
 This repo is based on  [MCM](https://github.com/deeplearning-wisc/MCM) and [CALIP](https://github.com/ZiyuGuo99/CALIP).
 
