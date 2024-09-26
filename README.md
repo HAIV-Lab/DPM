@@ -32,6 +32,8 @@ The pipeline of DPM method. The dashed boxes and dashed arrows indicate the modu
 ### Dependencies
 Our experiments are conducted with Python 3.9 and Pytorch 2.0.1.
 ### Datasets
+We use [ImageNet-1K](https://image-net.org/index.php) as the ID dataset.
+We use OOD datasets, including iNaturalist, SUN, Places, and Texture, followed by this [repository](https://github.com/deeplearning-wisc/large_scale_ood#out-of-distribution-dataset).
 Please put the datasets in the data folder with the following structure:
 ```
 DPM-F
