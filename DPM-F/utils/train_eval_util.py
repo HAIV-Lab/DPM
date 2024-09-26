@@ -11,30 +11,6 @@ from torchvision import datasets, transforms
 import torchvision.transforms as transforms
 
 
-
-def set_model_clip(args):
-    '''
-    load Huggingface CLIP
-    '''
-    ckpt_mapping = {"ViT-B/16":"/data/hdd/xz2002/xz2002/CLIP-OOD/DualCoOp-main/MCM/pretrained_model/clip-vit-base-patch16/",
-                    "ViT-B/32":"/data/hdd/xz2002/xz2002/CLIP-OOD/DualCoOp-main/MCM/pretrained_model/clip-vit-base-patch32/",
-                    "ViT-L/14":"openai/clip-vit-large-patch14"}
-    args.ckpt = ckpt_mapping[args.CLIP_ckpt]
-    model =  CLIPModel.from_pretrained(args.ckpt)
-    if args.model == 'CLIP-Linear':
-        model.load_state_dict(torch.load(args.finetune_ckpt, map_location=torch.device(args.gpu)))
-    model = model.cuda()
-    normalize = transforms.Normalize(mean=(0.48145466, 0.4578275, 0.40821073),
-                                         std=(0.26862954, 0.26130258, 0.27577711))  # for CLIP
-    val_preprocess = transforms.Compose([
-            transforms.Resize(224),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            normalize
-        ])
-    
-    return model, val_preprocess
-
 def set_train_loader(args, preprocess=None, batch_size=None, shuffle=False, subset=False):
     root = args.root_dir
     if preprocess == None:
