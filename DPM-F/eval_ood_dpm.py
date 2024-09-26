@@ -1,14 +1,11 @@
-import os
 import argparse
 import numpy as np
 import torch
 from utils.common import setup_seed, get_num_cls, get_test_labels
 from utils.dpm_core import get_and_print_results, get_ood_scores_DPM, get_sim_mean_DPM ,get_ood_scores_CLIP
-from utils.file_ops import  setup_log
 from utils.train_eval_util import  set_val_loader, set_ood_loader_ImageNet
 import torch.nn.functional as F
 import clip
-import re
 from scipy.stats import entropy
 
 def str2bool(str):
@@ -33,7 +30,7 @@ def process_args():
     # setting for each run
     parser.add_argument('--in_dataset', default='ImageNet', type=str,
                         choices=['ImageNet'], help='in-distribution dataset')
-    parser.add_argument('--root-dir', default='/data/hdd/data_xz/', type=str,
+    parser.add_argument('--root-dir', default='./data/', type=str,
                         help='root dir of datasets')
     parser.add_argument('--name', default="eval_ood",
                         type=str, help="unique ID for the run")
@@ -74,11 +71,8 @@ def main():
     model, preprocess = clip.load(args.CLIP_ckpt)
     model.eval()
 
-    if args.in_dataset in ['cifar100']:
-        out_datasets = ['cifar10','ImageNetr','LSUN','LSUN_resize']
-    elif args.in_dataset in ['ImageNet20']:
-        out_datasets = ['ImageNet10']
-    elif args.in_dataset in [ 'ImageNet', 'ImageNet100', 'CUB','Cal']:
+
+    if args.in_dataset in ['ImageNet']:
          out_datasets = [ 'iNaturalist','SUN', 'places365','dtd']
 
     test_loader,train_loader = set_val_loader(args, preprocess)
