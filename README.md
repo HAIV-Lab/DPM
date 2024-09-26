@@ -47,3 +47,8 @@ DPM-F
         |-- Texture
     ...
 ```
+
+## Acknowledgment
+This repo is based on  [MCM]([[https://github.com/zhoudw-zdw/RevisitingCIL](https://github.com/deeplearning-wisc/MCM))] and CALIP.
+
+Thanks for their wonderful work!!!
