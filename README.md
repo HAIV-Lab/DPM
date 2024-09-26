@@ -49,6 +49,6 @@ DPM-F
 ```
 
 ## Acknowledgment
-This repo is based on  [MCM](https://github.com/deeplearning-wisc/MCM) and CALIP.
+This repo is based on  [MCM](https://github.com/deeplearning-wisc/MCM) and [CALIP](https://github.com/ZiyuGuo99/CALIP).
 
 Thanks for their wonderful work!!!
