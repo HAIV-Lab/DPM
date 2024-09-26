@@ -30,4 +30,18 @@ The pipeline of DPM method. The dashed boxes and dashed arrows indicate the modu
 
 ## Requirements
 ### Dependencies
-
+Our experiments are conducted with Python 3.9 and Pytorch 2.0.1.
+### Datasets
+Please put the datasets in the data folder with the following structure:
+DPM-F
+|-- data
+    |-- imagenet
+        |-- images/
+            |--train/ 
+            |-- val/
+    |-- OOD
+        |-- iNaturalist
+        |-- SUN
+        |-- Places
+        |-- Texture
+    ...
