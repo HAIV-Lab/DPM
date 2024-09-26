@@ -51,7 +51,6 @@ def process_args():
     parser.add_argument('--score', default='DPM', type=str, choices=[
         'MCM', 'energy', 'max-logit', 'entropy', 'DPM'], help='score options')
     parser.add_argument('--gamma', default=0.1, type=float, help="feature aggregation")
-    parser.add_argument('--log_directory', default='', type=str, help="")
     args = parser.parse_args()
     args.n_cls = get_num_cls(args)
 
@@ -69,8 +68,6 @@ def main():
     print(args)
     print(args.CLIP_ckpt)
     setup_seed(args.seed)
-    log = setup_log(args)
-    log.info(args)
     assert torch.cuda.is_available()
     torch.cuda.set_device(args.gpu)
 
@@ -92,7 +89,7 @@ def main():
 
     if args.score == 'DPM':
         id_sim_mean, id_sim_lables = get_sim_mean_DPM(args, model, train_loader, text_f_yes, test_labels,
-                                                        args.gamma)  # beta1=0.071, beta2=0.098
+                                                        args.gamma)
         ca_id_score, kl_id = get_ood_scores_DPM(args, model, test_loader, text_f_yes, id_sim_mean,args.gamma)
         feature = {}
         feature['ca_id'] = ca_id_score
@@ -103,7 +100,7 @@ def main():
         TM_AUR, TM_FPR = [], []
         DPM_AUR, DPM_FPR = [], []
         for out_dataset in out_datasets:
-            log.info(f"Evaluting OOD dataset {out_dataset}")
+            print(f"Evaluting OOD dataset {out_dataset}")
             ood_loader = set_ood_loader_ImageNet(args, out_dataset, preprocess, root=args.root_dir)
             ca_ood_score, kl_ood = get_ood_scores_DPM(args, model, ood_loader, text_f_yes, id_sim_mean,args.gamma)
             def _scale(x, target_min, target_max):
@@ -124,7 +121,7 @@ def main():
                 ood_score = beta * (-np.min(kl_ood_norm, axis=1)) + (-np.max(ca_ood_score, axis=1))
                 auroc, fpr = get_and_print_results( id_score, ood_score)
                 score = auroc - fpr
-                log.info('beta,auroc,fpr,%s,%s,%s', str(beta), str(auroc), str(fpr))
+
                 if score > bestscore:
                     bestscore = score
                     bestaur = auroc
@@ -133,33 +130,25 @@ def main():
                     # print('beta,auroc,fpr', beta, auroc, fpr)
 
             print('******************dpm**********************')
-            log.info('******************dpm**********************')
             print('bestbeta,auroc,fpr',bestbeta, bestaur, bestfpr)
-            log.info('bestbeta,auroc,fpr,%s,%s,%s',str(bestbeta), str(bestaur), str(bestfpr))
             DPM_AUR.append(bestaur)
             DPM_FPR.append(bestfpr)
 
             print('******************vm**********************')
-            log.info('******************vm**********************')
             id_score = (np.min(kl_id_norm, axis=1))
             ood_score = (np.min(kl_ood_norm, axis=1))
 
             auroc, fpr = get_and_print_results( id_score, ood_score)
-            score = auroc - fpr
             print('VM,auroc,fpr',  auroc, fpr)
-            log.info('VM,auroc,fpr,%s,%s',  str(auroc), str(fpr))
             VM_AUR.append(auroc)
             VM_FPR.append(fpr)
 
             print('******************TM**********************')
-            log.info('******************TM**********************')
             id_score = (-np.max(ca_id_score, axis=1))
             ood_score =  (-np.max(ca_ood_score, axis=1))
 
             auroc, fpr = get_and_print_results( id_score, ood_score)
-            score = auroc - fpr
             print('TM,auroc,fpr',  auroc, fpr)
-            log.info('TM,auroc,fpr,%s,%s',  str(auroc), str(fpr))
             TM_AUR.append(auroc)
             TM_FPR.append(fpr)
 
@@ -167,34 +156,28 @@ def main():
         print('TM,auroc,fpr', sum(TM_AUR) / len(TM_AUR),sum(TM_FPR) / len(TM_FPR) )
         print('VM,auroc,fpr', sum(VM_AUR) / len(VM_AUR), sum(VM_FPR) / len(VM_FPR))
         print('DPM,auroc,fpr', sum(DPM_AUR) / len(DPM_AUR), sum(DPM_FPR) / len(DPM_FPR))
-        log.info('******************mean***************')
-        log.info('TM,auroc,fpr,%s,%s', str(sum(TM_AUR) / len(TM_AUR)),str(sum(TM_FPR) / len(TM_FPR) ))
-        log.info('VM,auroc,fpr,%s,%s', str(sum(VM_AUR) / len(VM_AUR)), str(sum(VM_FPR) / len(VM_FPR)))
-        log.info('DPM,auroc,fpr,%s,%s', str(sum(DPM_AUR) / len(DPM_AUR)), str(sum(DPM_FPR) / len(DPM_FPR)))
     else:
         in_score = get_ood_scores_CLIP( model, test_loader, text_f_yes)
         for out_dataset in out_datasets:
-            log.info(f"Evaluting OOD dataset {out_dataset}")
             ood_loader = set_ood_loader_ImageNet(args, out_dataset, preprocess, root=args.root_dir)
             out_score = get_ood_scores_CLIP( model, ood_loader, text_f_yes)
-            search(args, in_score, out_score,log)
+            search(args, in_score, out_score)
 
 
-def search(args,id,ood,log,softmax=True,search=True):
+def search(args,id,ood,softmax=True,search=True):
     print(args.score,softmax)
     if search==False:
         t=1
-        log.info(args.score)
         id_score = oodmethod(args, t, id, softmax=softmax)
         ood_score = oodmethod(args, t, ood, softmax=softmax)
         auroc, fpr = get_and_print_results( id_score, ood_score)
-        log.info('t,auroc,fpr:%s,%s,%s', t,  str(auroc), str(fpr))
+        print('t,auroc,fpr:%s,%s,%s', t,  str(auroc), str(fpr))
     else:
         for t in [1,2,5,10,100,1000]:
             id_score = oodmethod(args,t,id,softmax=softmax)
             ood_score = oodmethod(args,t, ood, softmax=softmax)
             auroc, fpr = get_and_print_results( id_score, ood_score)
-            log.info('t,auroc,fpr:%s,%s,%s', t,  str(auroc), str(fpr))
+            print('t,auroc,fpr:%s,%s,%s', t,  str(auroc), str(fpr))
 
 def oodmethod(args,t,logits,softmax=True):
     _score = []
