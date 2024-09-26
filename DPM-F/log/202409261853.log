@@ -1,0 +1,2 @@
+2024-09-26 18:53:14,818 : #########eval_ood############
+2024-09-26 18:53:14,818 : Namespace(in_dataset='ImageNet', root_dir='/data/hdd/data_xz/', name='eval_ood', seed=1556, gpu=0, batch_size=128, T=10, model='CLIP', CLIP_ckpt='ViT-B/16', score='DPM', gamma=0.1, log_directory='log/202409261853.log', n_cls=1000)
