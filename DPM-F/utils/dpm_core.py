@@ -222,7 +222,7 @@ def get_sim_mean_DPM(args, model, loader, text_f_yes, test_labels, gamma=0.098):
             labels = torch.cat(labels, dim=0)
             logits2 = torch.cat(logits2, dim=0)
     total_logits = logits2
-    total_sim = F.softmax(total_logits, dim=1)
+    total_sim = F.softmax(total_logits/args.T, dim=1)
     total_sim = to_np(total_sim)
     class_num = len(test_labels)
     class_labels = to_np(labels)
@@ -241,8 +241,9 @@ def get_ood_scores_DPM(args, model, loader, text_f_yes, id_sim_mean, gamma=0.1):
     L, D = feat_t.shape
     logits1 = []
     logits2 = []
+    tqdm_object = tqdm(loader, total=len(loader))
     with torch.no_grad():
-        for batch_idx, (images, label) in enumerate(loader): #tqdm_object
+        for batch_idx, (images, label) in enumerate(tqdm_object): #tqdm_object
             images = images.cuda()
             features = model.encode_image(images)
             features = features.permute(1, 0, 2)
