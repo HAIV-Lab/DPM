@@ -30,7 +30,7 @@ def process_args():
     # setting for each run
     parser.add_argument('--in_dataset', default='ImageNet', type=str,
                         choices=['ImageNet'], help='in-distribution dataset')
-    parser.add_argument('--root-dir', default='./data/', type=str,
+    parser.add_argument('--root-dir', default='/data/hdd/data_xz', type=str,
                         help='root dir of datasets')
     parser.add_argument('--name', default="eval_ood",
                         type=str, help="unique ID for the run")
@@ -40,7 +40,9 @@ def process_args():
 
     parser.add_argument('-b', '--batch-size', default=128, type=int,
                         help='mini-batch size')
-    parser.add_argument('--T', type=int, default=10,
+    parser.add_argument('--T', type=int, default=1,
+                        help='temperature parameter for kl')
+    parser.add_argument('--T1', type=int, default=10,
                         help='temperature parameter')
     parser.add_argument('--model', default='CLIP', type=str, help='model architecture')
     parser.add_argument('--CLIP_ckpt', type=str, default='ViT-B/16',
@@ -48,6 +50,7 @@ def process_args():
     parser.add_argument('--score', default='DPM', type=str, choices=[
         'MCM', 'energy', 'max-logit', 'entropy', 'DPM'], help='score options')
     parser.add_argument('--gamma', default=0.1, type=float, help="feature aggregation")
+    parser.add_argument('--beta', default=-2, type=float, help="VM Weight")
     args = parser.parse_args()
     args.n_cls = get_num_cls(args)
 
@@ -84,49 +87,38 @@ def main():
     if args.score == 'DPM':
         id_sim_mean, id_sim_lables = get_sim_mean_DPM(args, model, train_loader, text_f_yes, test_labels,
                                                         args.gamma)
-        ca_id_score, kl_id = get_ood_scores_DPM(args, model, test_loader, text_f_yes, id_sim_mean,args.gamma)
-        feature = {}
-        feature['ca_id'] = ca_id_score
-        feature['kl_id'] = kl_id
-        t = args.T
-        ca_id_score = np.array([softmax(item / t) for item in ca_id_score])
+        dsfa_id_score, kl_id = get_ood_scores_DPM(args, model, test_loader, text_f_yes, id_sim_mean,args.gamma)
+
+        t = args.T1
+        dsfa_id_score = np.array([softmax(item / t) for item in dsfa_id_score])
         VM_AUR,VM_FPR = [], []
         TM_AUR, TM_FPR = [], []
         DPM_AUR, DPM_FPR = [], []
         for out_dataset in out_datasets:
             print(f"Evaluting OOD dataset {out_dataset}")
             ood_loader = set_ood_loader_ImageNet(args, out_dataset, preprocess, root=args.root_dir)
-            ca_ood_score, kl_ood = get_ood_scores_DPM(args, model, ood_loader, text_f_yes, id_sim_mean,args.gamma)
+            dsfa_ood_score, kl_ood = get_ood_scores_DPM(args, model, ood_loader, text_f_yes, id_sim_mean,args.gamma)
             def _scale(x, target_min, target_max):
                 y = (x - x.min()) / (x.max() - x.min())
                 y *= target_max - target_min
                 y += target_min
                 return y
 
-            ca_ood_score  = np.array([softmax(item / t) for item in ca_ood_score])
-            target_max, target_min = ca_id_score.max(), ca_id_score.min()
+            dsfa_ood_score  = np.array([softmax(item / t) for item in dsfa_ood_score])
+            target_max, target_min = dsfa_id_score.max(), dsfa_id_score.min()
             kl_id_norm = _scale(kl_id, target_min, target_max)  # / kl_id.mean()
             kl_ood_norm = _scale(kl_ood, target_min, target_max)  # kl_ood / kl_id.mean()
 
-            bestscore = -10  #search
-            for beta in range(0, 50, 1):
-                beta = beta / 5 - 5
-                id_score = beta * (-np.min(kl_id_norm, axis=1)) + (-np.max(ca_id_score, axis=1))
-                ood_score = beta * (-np.min(kl_ood_norm, axis=1)) + (-np.max(ca_ood_score, axis=1))
-                auroc, fpr = get_and_print_results( id_score, ood_score)
-                score = auroc - fpr
 
-                if score > bestscore:
-                    bestscore = score
-                    bestaur = auroc
-                    bestfpr = fpr
-                    bestbeta = beta
-                    # print('beta,auroc,fpr', beta, auroc, fpr)
+            beta= args.beta
+            id_score = beta * (-np.min(kl_id_norm, axis=1)) + (-np.max(dsfa_id_score, axis=1))
+            ood_score = beta * (-np.min(kl_ood_norm, axis=1)) + (-np.max(dsfa_ood_score, axis=1))
+            auroc, fpr = get_and_print_results( id_score, ood_score)
 
             print('******************dpm**********************')
-            print('bestbeta,auroc,fpr',bestbeta, bestaur, bestfpr)
-            DPM_AUR.append(bestaur)
-            DPM_FPR.append(bestfpr)
+            print('auroc,fpr', auroc, fpr)
+            DPM_AUR.append(auroc)
+            DPM_FPR.append(fpr)
 
             print('******************vm**********************')
             id_score = (np.min(kl_id_norm, axis=1))
@@ -138,8 +130,8 @@ def main():
             VM_FPR.append(fpr)
 
             print('******************TM**********************')
-            id_score = (-np.max(ca_id_score, axis=1))
-            ood_score =  (-np.max(ca_ood_score, axis=1))
+            id_score = (-np.max(dsfa_id_score, axis=1))
+            ood_score =  (-np.max(dsfa_ood_score, axis=1))
 
             auroc, fpr = get_and_print_results( id_score, ood_score)
             print('TM,auroc,fpr',  auroc, fpr)
@@ -184,7 +176,7 @@ def oodmethod(args,t,logits,softmax=True):
             smax = to_np(output / t)
         if args.score == 'energy':
             _score.append(-to_np((t * torch.logsumexp(output / t,
-                                                           dim=1))))  # energy score is expected to be smaller for ID
+                                                           dim=1))))
         elif args.score == 'entropy':
             _score.append(entropy(smax, axis=1))
         elif args.score == 'var':
