@@ -2,7 +2,7 @@
 
 The code repository for "Vision-Language Dual-Pattern Matching for Out-of-Distribution Detection" in PyTorch. 
 
-We will gradually improve and enhance the code. 
+We have released DPM-F, DPM-T will be released soon. We will gradually improve and enhance the code. 
 ## News
 
 [09/2024]🎉  Our codes have been released publicly.
