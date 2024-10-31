@@ -31,6 +31,7 @@ The pipeline of DPM method. The dashed boxes and dashed arrows indicate the modu
 ## Requirements
 ### Dependencies
 Our experiments are conducted with Python 3.9 and Pytorch 2.0.1.
+For DPM-T, you need to additionally install [dassl](https://github.com/KaiyangZhou/Dassl.pytorch).
 ### Datasets
 We use [ImageNet-1K](https://image-net.org/index.php) as the ID dataset.
 We use OOD datasets, including [iNaturalist](https://arxiv.org/pdf/1707.06642), [SUN](https://vision.princeton.edu/projects/2010/SUN/), [Places](https://arxiv.org/abs/1610.02055), and [Texture](https://arxiv.org/abs/1311.3618), followed by this [repository](https://github.com/deeplearning-wisc/large_scale_ood#out-of-distribution-dataset).
