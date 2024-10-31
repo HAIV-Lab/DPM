@@ -37,23 +37,6 @@ def truncate_sentence(sentence, tokenizer):
         return cur_sentence
 
 
-def set_ood_loader_ImageNet(args, out_dataset, preprocess, root):
-    '''
-    set OOD loader for ImageNet scale datasets
-    '''
-    if out_dataset == 'iNaturalist':
-        testsetout = torchvision.datasets.ImageFolder(root=os.path.join(root, 'iNaturalist'), transform=preprocess)
-    elif out_dataset == 'SUN':
-        testsetout = torchvision.datasets.ImageFolder(root=os.path.join(root, 'SUN'), transform=preprocess)
-    elif out_dataset == 'places365':  # filtered places
-        testsetout = torchvision.datasets.ImageFolder(root=os.path.join(root, 'Places'), transform=preprocess)
-    elif out_dataset == 'dtd':
-        testsetout = torchvision.datasets.ImageFolder(root=os.path.join(root, 'dtd', 'images'),
-                                                      transform=preprocess)
-    return testloaderOut
-
-
-
 def stable_cumsum(arr, rtol=1e-05, atol=1e-08):
     """Use high precision for cumsum and check that final value matches sum
     Parameters
@@ -267,9 +250,9 @@ def get_ood_scores_DPM(args, model, loader, text_f_yes, id_sim_mean, gamma=0.1):
     total_logits = to_np(total_logits / args.T)
     bs = 200
     kl_div = []
-
+    print('computing kl......')
     with torch.no_grad():
-        for i in range(total_sim.shape[0] // bs):
+        for i in tqdm(range(total_sim.shape[0] // bs)):
             cur_logits = total_sim[i * bs: (i + 1) * bs]
             output = cur_logits  # to_np(cur_logits)
             kl_div.append(get_kl(id_sim_mean, output))
