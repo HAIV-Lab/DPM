@@ -56,6 +56,6 @@ To run DPM-F, please run the below command:
 python eval_ood_dpm --in_dataset ImageNet --root-dir ./data/ --score DPM
 ```
 ## Acknowledgment
-This repo is based on  [MCM](https://github.com/deeplearning-wisc/MCM) and [CALIP](https://github.com/ZiyuGuo99/CALIP).
+This repo is based on  [MCM](https://github.com/deeplearning-wisc/MCM), [CoOp](https://github.com/KaiyangZhou/CoOp) and [CALIP](https://github.com/ZiyuGuo99/CALIP).
 
 Thanks for their wonderful work!!!
