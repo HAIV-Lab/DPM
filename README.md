@@ -37,7 +37,7 @@ We use [ImageNet-1K](https://image-net.org/index.php) as the ID dataset.
 We use OOD datasets, including [iNaturalist](https://arxiv.org/pdf/1707.06642), [SUN](https://vision.princeton.edu/projects/2010/SUN/), [Places](https://arxiv.org/abs/1610.02055), and [Texture](https://arxiv.org/abs/1311.3618), followed by this [repository](https://github.com/deeplearning-wisc/large_scale_ood#out-of-distribution-dataset).
 Please put the datasets in the data folder with the following structure:
 ```
-DPM-F
+
 |-- data
     |-- imagenet
         |-- images/
@@ -53,7 +53,16 @@ DPM-F
 ## Run
 To run DPM-F, please run the below command:
 ```
-python eval_ood_dpm --in_dataset ImageNet --root-dir ./data/ --score DPM
+python eval_ood_dpm --in_dataset ImageNet --root-dir ....../data/ --score DPM
+```
+
+To run DPM-T, please run the below command:
+```
+python main.py --root ....../data/ --trainer DPM --output_dir ./output/test/
+```
+To eval DPM-T, please run the below command:
+```
+python test.py --root ....../data/ --trainer DPM --output_dir ./output/test/ --load_epoch XX
 ```
 ## Acknowledgment
 This repo is based on  [MCM](https://github.com/deeplearning-wisc/MCM), [CoOp](https://github.com/KaiyangZhou/CoOp) and [CALIP](https://github.com/ZiyuGuo99/CALIP).
