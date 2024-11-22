@@ -33,27 +33,23 @@ The pipeline of DPM method. The dashed boxes and dashed arrows indicate the modu
 Our experiments are conducted with Python 3.9 and Pytorch 2.0.1.
 For DPM-T, you need to additionally install [dassl](https://github.com/KaiyangZhou/Dassl.pytorch).
 ### Datasets
-We use [ImageNet-1K](https://image-net.org/index.php) as the ID dataset.
-We use OOD datasets, including [iNaturalist](https://arxiv.org/pdf/1707.06642), [SUN](https://vision.princeton.edu/projects/2010/SUN/), [Places](https://arxiv.org/abs/1610.02055), and [Texture](https://arxiv.org/abs/1311.3618), followed by this [repository](https://github.com/deeplearning-wisc/large_scale_ood#out-of-distribution-dataset).
+We use CIFAR-100 as the ID dataset.
+We use OOD datasets, including CIFAR10, ImageNet-r, LSUN.
 Please put the datasets in the data folder with the following structure:
 ```
 
 |-- data
-    |-- imagenet
-        |-- images/
-            |--train/ 
-            |-- val/
     |-- OOD
-        |-- iNaturalist
-        |-- SUN
-        |-- places365
-        |-- dtd
+        |-- CIFAR100
+        |-- CIFAR10
+        |-- ImageNet-r
+        |-- LSUN
     ...
 ```
 ## Run
 To run DPM-F, please run the below command:
 ```
-python eval_ood_dpm --in_dataset ImageNet --root-dir ....../data/ --score DPM
+python eval_ood_dpm  --root-dir ....../data/ --score DPM
 ```
 
 To run DPM-T, please run the below command:
