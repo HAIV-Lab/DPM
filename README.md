@@ -46,7 +46,7 @@ Please put the datasets in the data folder with the following structure:
                 .......
         |-- CIFAR10
         |-- ImageNet-r
-        |-- LSUN
+        |-- LSUN-C
     ...
 ```
 ## Run
