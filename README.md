@@ -41,6 +41,9 @@ Please put the datasets in the data folder with the following structure:
 |-- data
     |-- OOD
         |-- CIFAR100
+             |-- 0
+                |-- XXXXX.jpg
+                .......
         |-- CIFAR10
         |-- ImageNet-r
         |-- LSUN
