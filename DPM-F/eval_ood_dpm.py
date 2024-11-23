@@ -42,9 +42,9 @@ def process_args():
     parser = argparse.ArgumentParser(description='Evaluates DPM Score for CLIP',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     # setting for each run
-    parser.add_argument('--in_dataset', default='cifar100', type=str,
-                        choices=['ImageNet,cifar100'], help='in-distribution dataset')
-    parser.add_argument('--root-dir', default='/data/hdd/data_xz', type=str,
+    parser.add_argument('--in_dataset', default='cifar100', type=str
+                        , help='in-distribution dataset')
+    parser.add_argument('--root-dir', default='', type=str,
                         help='root dir of datasets')
     parser.add_argument('--name', default="eval_ood",
                         type=str, help="unique ID for the run")
@@ -67,9 +67,7 @@ def process_args():
     return args
 
 def softmax(x):
-    # 计算指数值
     exp_values = np.exp(x )
-    # 计算每个样本的Softmax概率
     probabilities = exp_values / np.sum(exp_values)
     return probabilities
 
