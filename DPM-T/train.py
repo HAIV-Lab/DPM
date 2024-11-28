@@ -8,7 +8,7 @@ import warnings
 import torchvision
 warnings.filterwarnings("ignore")
 import datasets.cifar
-import trainer.DPM_cifar
+import trainer.DPM
 
 def print_args(args, cfg):
     print("***************")
