@@ -10,7 +10,7 @@ import clip
 warnings.filterwarnings("ignore")
 import datasets.cifar
 from torchvision import datasets, transforms
-import trainer.DPM_cifar
+import trainer.DPM
 
 def print_args(args, cfg):
     print("***************")
