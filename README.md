@@ -12,7 +12,7 @@
 School of Artificial Intelligence and Automation, Huazhong University of Science and Technology&emsp;
 </div>
 </div>
-
+<br>
 
 The code repository for "[Vision-Language Dual-Pattern Matching for Out-of-Distribution Detection](https://fq.pkwyx.com/default/https/www.ecva.net/papers/eccv_2024/papers_ECCV/papers/11399.pdf), in ECCV 2024" in PyTorch. 
 
