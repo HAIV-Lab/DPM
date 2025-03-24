@@ -3,13 +3,13 @@
 <div align="center">
 
 <div>
-    <a href='' target='_blank'>Zihan Zhang</a><sup>1</sup>&emsp;
-    <a href='' target='_blank'>Zhuo Xu</a><sup>1</sup>&emsp;
+    <a href='' target='_blank'>Zihan Zhang</a>&emsp;
+    <a href='' target='_blank'>Zhuo Xu</a>&emsp;
     <a href='https://scholar.google.com.hk/citations?hl=zh-CN&user=-D5k5ioAAAAJ&view_op=list_works' target='_blank'>Xiang Xiang</a><sup>1</sup>&emsp;
 
 </div>
 <div>
-<sup>1</sup>School of Artificial Intelligence and Automation, Huazhong University of Science and Technology&emsp;
+School of Artificial Intelligence and Automation, Huazhong University of Science and Technology&emsp;
 </div>
 </div>
 
