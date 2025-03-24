@@ -14,7 +14,7 @@
 </div>
 
 
-The code repository for "Vision-Language Dual-Pattern Matching for Out-of-Distribution Detection, in ECCV 2024" in PyTorch. 
+The code repository for "[Vision-Language Dual-Pattern Matching for Out-of-Distribution Detection](https://fq.pkwyx.com/default/https/www.ecva.net/papers/eccv_2024/papers_ECCV/papers/11399.pdf), in ECCV 2024" in PyTorch. 
 
 We will gradually improve and enhance the code. 
 ## News
