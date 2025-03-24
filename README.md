@@ -5,7 +5,7 @@
 <div>
     <a href='' target='_blank'>Zihan Zhang</a>&emsp;
     <a href='' target='_blank'>Zhuo Xu</a>&emsp;
-    <a href='https://scholar.google.com.hk/citations?hl=zh-CN&user=-D5k5ioAAAAJ&view_op=list_works' target='_blank'>Xiang Xiang</a><sup>1</sup>&emsp;
+    <a href='https://scholar.google.com.hk/citations?hl=zh-CN&user=-D5k5ioAAAAJ&view_op=list_works' target='_blank'>Xiang Xiang</a>&emsp;
 
 </div>
 <div>
