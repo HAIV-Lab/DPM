@@ -77,7 +77,23 @@ To eval DPM-T, please run the below command:
 ```
 python test.py --root ....../data/ --trainer DPM --output_dir ./output/test/ --load_epoch XX
 ```
+## Citation
+If you find this useful in your research, please consider citing:
+```
+@inproceedings{zhang2024vision,
+  title={Vision-Language Dual-Pattern Matching for Out-of-Distribution Detection},
+  author={Zhang, Zihan and Xu, Zhuo and Xiang, Xiang},
+  booktitle={European Conference on Computer Vision},
+  pages={273--291},
+  year={2024},
+  organization={Springer}
+}
+```
+
 ## Acknowledgment
 This repo is based on  [MCM](https://github.com/deeplearning-wisc/MCM), [CoOp](https://github.com/KaiyangZhou/CoOp) and [CALIP](https://github.com/ZiyuGuo99/CALIP).
 
 Thanks for their wonderful work!!!
+
+## Correspondence
+If you have any question about this project, please contact xex@hust.edu.cn
