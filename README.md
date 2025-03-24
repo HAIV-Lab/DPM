@@ -1,5 +1,19 @@
 # Vision-Language Dual-Pattern Matching for Out-of-Distribution Detection
 
+<div align="center">
+
+<div>
+    <a href='' target='_blank'>Zihan Zhang</a><sup>1</sup>&emsp;
+    <a href='' target='_blank'>Zhuo Xu</a><sup>1</sup>&emsp;
+    <a href='https://scholar.google.com.hk/citations?hl=zh-CN&user=-D5k5ioAAAAJ&view_op=list_works' target='_blank'>Xiang Xiang</a><sup>1</sup>&emsp;
+
+</div>
+<div>
+<sup>1</sup>School of Artificial Intelligence and Automation, Huazhong University of Science and Technology&emsp;
+</div>
+</div>
+
+
 The code repository for "Vision-Language Dual-Pattern Matching for Out-of-Distribution Detection, in ECCV 2024" in PyTorch. 
 
 We will gradually improve and enhance the code. 
