@@ -9,7 +9,7 @@
 
 </div>
 <div>
-School of Artificial Intelligence and Automation, Huazhong University of Science and Technology&emsp;
+Huazhong University of Science and Technology&emsp;
 </div>
 </div>
 <br>
